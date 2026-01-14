@@ -1,0 +1,667 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000;
+    color: #444;
+    font-family: 'Courier New', monospace;
+    overflow: hidden;
+    margin: 0;
+    position: relative;
+    cursor: crosshair;
+}
+
+/* VHS Overlay Efekti */
+body::after {
+    content: " ";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.1),
+        rgba(0, 0, 0, 0.1) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.3;
+}
+
+/* Glitch Efekti */
+.glitch {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ff0000;
+    position: relative;
+    text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff;
+    animation: glitch 1s infinite;
+}
+
+@keyframes glitch {
+    0% { transform: translate(0) }
+    20% { transform: translate(-2px, 2px) }
+    40% { transform: translate(-2px, -2px) }
+    60% { transform: translate(2px, 2px) }
+    80% { transform: translate(2px, -2px) }
+    100% { transform: translate(0) }
+}
+
+/* Overlay (İlk ekran) */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9001;
+    cursor: pointer;
+}
+
+.glitch-wrapper {
+    text-align: center;
+}
+
+.cursor-text {
+    color: #888;
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+/* Container ve Nodes */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    padding: 100px 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.node {
+    width: 300px;
+    transition: all 0.5s ease;
+    filter: grayscale(100%) brightness(0.4);
+    pointer-events: none;
+    border: 1px solid #1a1a1a;
+    padding: 10px;
+    background: #000;
+    position: relative;
+}
+
+.node.active {
+    filter: none;
+    pointer-events: auto;
+    border-color: #ff0000;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.1);
+}
+
+.node.played {
+    filter: brightness(0.3);
+    pointer-events: none;
+}
+
+.video-container {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+video {
+    width: 100%;
+    opacity: 0.8;
+    filter: brightness(1.2);
+}
+
+.video-overlay {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-size: 10px;
+    background: rgba(255, 0, 0, 0.8);
+    color: #000;
+    padding: 2px 5px;
+}
+
+/* Status Bar */
+.status-bar {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.lock-icon {
+    font-size: 12px;
+    color: #555;
+    letter-spacing: 2px;
+}
+
+.text-content {
+    font-size: 11px;
+    color: #888;
+    text-align: left;
+    margin-top: 10px;
+    border-left: 1px solid #ff0000;
+    padding-left: 10px;
+    word-break: break-word;
+    white-space: normal;
+    line-height: 1.4;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* VHS Noise - Subtle scanline only */
+.vhs-noise {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9998;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.08) 0px, transparent 1px);
+    opacity: 0.2;
+}
+
+.vhs-static {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9997;
+}
+
+/* Fake Logs */
+.fake-logs {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    color: #0f0;
+    font-size: 10px;
+    z-index: 9000;
+    pointer-events: none;
+    text-shadow: 0 0 5px #0f0;
+    max-width: 300px;
+    max-height: 100px;
+    overflow-y: hidden;
+}
+
+.fake-logs p {
+    margin: 2px 0;
+    padding: 0;
+}
+
+/* Overlay Darken */
+#overlay-darken {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    z-index: 9900;
+    pointer-events: none;
+}
+
+/* Video Expanded (büyütülmüş) */
+.node.expanded {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 85vw !important;
+    max-width: 900px !important;
+    height: auto !important;
+    z-index: 10002 !important;
+    filter: none !important;
+    border: 3px solid #ff0000 !important;
+    background: #000 !important;
+    padding: 10px !important;
+    box-shadow: 0 0 80px rgba(255, 0, 0, 0.4);
+    pointer-events: auto !important;
+}
+
+.node.expanded video {
+    width: 100%;
+    max-height: 75vh;
+    display: block !important;
+    object-fit: contain;
+    z-index: 10003 !important;
+}
+
+/* Shake Animation */
+.shake {
+    animation: softShake 0.08s ease-in-out;
+}
+
+@keyframes softShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(1px); }
+    75% { transform: translateX(-1px); }
+}
+
+/* Fatal Error Screen */
+#fatal-error {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    color: #ff0000;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 20000;
+    font-family: 'Courier New', monospace;
+    padding: 50px;
+    text-align: center;
+}
+
+#fatal-error h1 {
+    font-size: 3rem;
+    margin: 0;
+}
+
+#fatal-error p {
+    font-size: 1.2rem;
+    margin: 10px 0;
+    color: #fff;
+}
+
+.error-watching {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #ff0000;
+    margin-top: 50px;
+    text-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+    animation: pulse 0.5s infinite alternate;
+}
+
+@keyframes pulse {
+    from { opacity: 1; }
+    to { opacity: 0.6; }
+}
+
+/* ARE YOU ALONE Screen */
+.alone-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 20001;
+    font-family: 'Courier New', monospace;
+}
+
+.alone-screen.hidden {
+    display: none !important;
+}
+
+.alone-screen.visible {
+    display: flex;
+}
+
+.alone-container {
+    text-align: center;
+    max-width: 80%;
+}
+
+.alone-text {
+    font-size: 3.5rem;
+    color: #fff;
+    margin-bottom: 60px;
+    min-height: 100px;
+    letter-spacing: 3px;
+    animation: typewriter 2s steps(12, end) 1 normal both;
+}
+
+@keyframes typewriter {
+    0% { width: 0; }
+    100% { width: 12em; }
+}
+
+.alone-buttons {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.alone-btn {
+    padding: 15px 40px;
+    font-size: 1.5rem;
+    font-family: 'Courier New', monospace;
+    color: #ff0000;
+    background: transparent;
+    border: 3px solid #ff0000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.alone-btn:hover {
+    background: rgba(255, 0, 0, 0.2);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+}
+
+.yes-btn:active, .no-btn:active {
+    transform: scale(0.95);
+}
+
+.alone-response {
+    margin-top: 40px;
+    font-size: 1.3rem;
+    color: #ff0000;
+    min-height: 60px;
+    font-weight: bold;
+    animation: typewriter 3s steps(60, end) 1 normal both;
+}
+
+.error-code {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+/* Crash Video Container */
+.crash-video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 19998;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.crash-video-container.hidden {
+    display: none;
+}
+
+.crash-video-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* GPU Crash Artifacts */
+.crash-artifacts {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 19999;
+    pointer-events: none;
+    display: none;
+}
+
+.crash-artifacts.visible {
+    display: block;
+}
+
+.artifact {
+    position: absolute;
+    background: repeating-linear-gradient(
+        90deg,
+        #ff00ff,
+        #00ff00,
+        #ffff00,
+        #ff00ff
+    );
+    animation: artifactGlitch 0.15s infinite;
+}
+
+.artifact-1 {
+    top: 0;
+    left: 0;
+    width: 40%;
+    height: 30%;
+    opacity: 0.4;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(255, 0, 255, 0.3) 0px,
+        transparent 2px,
+        rgba(0, 255, 0, 0.2) 4px
+    );
+    animation: artifactShift 0.2s ease-in-out infinite;
+}
+
+.artifact-2 {
+    top: 20%;
+    right: 0;
+    width: 100%;
+    height: 4px;
+    background: #ff00ff;
+    opacity: 0.6;
+    animation: lineGlitch 0.1s infinite;
+}
+
+.artifact-3 {
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: repeating-linear-gradient(
+        90deg,
+        rgba(0, 255, 255, 0.2) 0px,
+        rgba(255, 0, 255, 0.3) 10px,
+        transparent 20px
+    );
+    animation: artifactWave 0.3s ease-in-out infinite;
+}
+
+.artifact-4 {
+    bottom: 10%;
+    left: 5%;
+    width: 200px;
+    height: 200px;
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(255, 255, 0, 0.2),
+        rgba(255, 255, 0, 0.2) 20px,
+        rgba(0, 255, 255, 0.1) 40px
+    );
+    opacity: 0.4;
+    animation: artifactTear 0.25s infinite;
+}
+
+.artifact-5 {
+    top: 30%;
+    left: 10%;
+    width: 50%;
+    height: 50%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(255, 0, 0, 0.1) 0px,
+        transparent 1px,
+        rgba(0, 255, 0, 0.15) 2px,
+        transparent 4px
+    );
+    animation: artifactFlicker 0.08s infinite;
+}
+
+@keyframes artifactGlitch {
+    0%, 100% { transform: translateX(0) translateY(0); opacity: 0.4; }
+    25% { transform: translateX(10px) translateY(-5px); opacity: 0.3; }
+    50% { transform: translateX(-8px) translateY(8px); opacity: 0.5; }
+    75% { transform: translateX(5px) translateY(-3px); opacity: 0.35; }
+}
+
+@keyframes lineGlitch {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(20px); opacity: 0.8; }
+}
+
+@keyframes artifactWave {
+    0% { transform: skewX(0deg); opacity: 0.2; }
+    50% { transform: skewX(-5deg); opacity: 0.4; }
+    100% { transform: skewX(0deg); opacity: 0.2; }
+}
+
+@keyframes artifactTear {
+    0%, 100% { transform: translateX(0) scaleY(1); }
+    50% { transform: translateX(20px) scaleY(1.1); }
+}
+
+@keyframes artifactFlicker {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.1; }
+}
+
+/* Artifacts */
+.artifacts {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(0deg, rgba(255,0,0,0.03) 0px, transparent 1px);
+    pointer-events: none;
+    z-index: 100;
+}
+
+/* Lost Souls Background Text */
+.lost-souls {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 50;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0.25;
+}
+
+.lost-souls p {
+    position: absolute;
+    font-size: 22px;
+    color: #ff0000;
+    font-family: 'Courier New', monospace;
+    margin: 0;
+    padding: 0;
+    text-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+    filter: blur(0.5px);
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* All text animated - alternating directions */
+.lost-souls p:nth-child(1) {
+    top: 10%;
+    animation: scrollL2R 16s linear infinite;
+}
+
+.lost-souls p:nth-child(2) {
+    top: 20%;
+    animation: scrollR2L 14s linear infinite;
+}
+
+.lost-souls p:nth-child(3) {
+    top: 30%;
+    animation: scrollL2R 18s linear infinite;
+}
+
+.lost-souls p:nth-child(4) {
+    top: 40%;
+    animation: scrollR2L 15s linear infinite;
+}
+
+.lost-souls p:nth-child(5) {
+    top: 50%;
+    animation: scrollL2R 17s linear infinite;
+}
+
+.lost-souls p:nth-child(6) {
+    top: 60%;
+    animation: scrollR2L 16s linear infinite;
+}
+
+.lost-souls p:nth-child(7) {
+    top: 70%;
+    animation: scrollL2R 19s linear infinite;
+}
+
+.lost-souls p:nth-child(8) {
+    top: 80%;
+    animation: scrollR2L 14s linear infinite;
+}
+
+.lost-souls p:nth-child(9) {
+    top: 15%;
+    animation: scrollL2R 15s linear infinite;
+}
+
+.lost-souls p:nth-child(10) {
+    top: 25%;
+    animation: scrollR2L 17s linear infinite;
+}
+
+.lost-souls p:nth-child(11) {
+    top: 35%;
+    animation: scrollL2R 16s linear infinite;
+}
+
+.lost-souls p:nth-child(12) {
+    top: 45%;
+    animation: scrollR2L 18s linear infinite;
+}
+
+.lost-souls p:nth-child(13) {
+    top: 55%;
+    animation: scrollL2R 15s linear infinite;
+}
+
+.lost-souls p:nth-child(14) {
+    top: 65%;
+    animation: scrollR2L 16s linear infinite;
+}
+
+.lost-souls p:nth-child(15) {
+    top: 75%;
+    animation: scrollL2R 17s linear infinite;
+}
+
+.lost-souls p:nth-child(16) {
+    top: 85%;
+    animation: scrollR2L 15s linear infinite;
+}
+
+@keyframes scrollL2R {
+    0% { left: -400px; opacity: 0; }
+    10% { opacity: 0.25; }
+    90% { opacity: 0.25; }
+    100% { left: 100vw; opacity: 0; }
+}
+
+@keyframes scrollR2L {
+    0% { right: -400px; opacity: 0; }
+    10% { opacity: 0.25; }
+    90% { opacity: 0.25; }
+    100% { right: 100vw; opacity: 0; }
+}

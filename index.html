@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Y O U_A R E_N O T_S A F E</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <audio id="bg-audio" loop>
+        <source src="n.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="m-audio" loop>
+        <source src="m.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="z-audio">
+        <source src="z.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="crash-video-audio">
+        <source src="videos/2.mp4" type="audio/mp4">
+    </audio>
+
+    <div id="overlay">
+        <div class="glitch-wrapper">
+            <div class="glitch" data-text="ACCESS_DENIED">ACCESS_DENIED</div>
+            <div class="cursor-text">CLICK TO FORCE CONNECT_</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="node active" id="node-1">
+            <div class="video-container">
+                <video id="vid1" playsinline onerror="this.style.display='none'">
+                    <source src="videos/1.mp4" type="video/mp4">
+                </video>
+                <div class="video-overlay">DATA_STREAM_01</div>
+            </div>
+            <div class="status-bar">
+                <span class="lock-icon" id="lock-1">🔒 LOCKED_DATA</span>
+                <div class="text-content hidden" id="text-1">
+                    <p class="log-entry">> REBIRTH_LOG</p>
+                    <p>VGhlbiBoZSByZXR1cm5lZCBob21lLiBJbiBoaXMgaG91c2UsIEkgd2FzIHJlYm9ybiBhcyBhIGNvbXBsZXRlbHkgZGlmZmVyZW50IGFuZCBkaXN0b3J0ZWQgY3JlYXR1cmUuIFRoZSB0aGlyc3QgZm9yIHJldmVuZ2UgYW5kIHRoZSBwYWluIG9mIGJlaW5nIGNhc3Qgb3V0IHdlcmUgcmVmbGVjdGVkIGluIG15IGJvZHkuIFRoYXQgbWFuIHNhdyBtZSwgd2FzIHN0cnVjackgd2l0aCB0ZXJyb3IsIGFuZCBsZWZ0IG1lIHNyaWdodCB0aGVyZSBpbiBoaXMgc2hvd2VyIGFuZCBmbGVkLiBBcyBsb25nIGFzIGhlIGRpZG4ndCBsb29rIGF0IG1lLCBJIGNvdWxkbid0IGZ1bGx5IGhvbGQgb250byByZWFsaXR5LiBCdXQgb25lIGRheSBoZSBjYW1lIGJhY2suLi4gVGhyb3VnaCBoaXMgY29tcHV0ZXIsIEkgY291bGQgcmV0dXJuIHRvIHRoZSBnYW1l4oCUdGhlIHBsYWNlIHdoZXJlIEkgdHJ1bHkgYmVsb25nZWQuIEJ1dCB0aGVyZSB3YXMgb25seSBvbmUgb2JzdGFjbGU6IEkgaGFkIHRvIGtpbGwgdGhhdCBtYW4u</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="node locked" id="node-2">
+            <div class="video-container">
+                <video id="vid2" playsinline onerror="this.style.display='none'">
+                    <source src="videos/2.mp4" type="video/mp4">
+                </video>
+                <div class="video-overlay">INTRUSION_02</div>
+            </div>
+            <div class="status-bar">
+                <span class="lock-icon" id="lock-2">🔒 LOCKED_DATA</span>
+                <div class="text-content hidden" id="text-2">
+                    <p class="log-entry">> INTRUSION_LOG</p>
+                    <p>SGV5IHlvdSwgcGVyc29uIGluIE1pbmVjcmFmdCwgd2lsbCB5b3Ugb3BlbiB0aGUgZG9vcj8gSEVZPyBJZiB5b3UgZG9uJ3Qgb3BlbiBpdCwgSSdtIGdvaW5nIHRvIGJyZWFrIGl0IGRvd24uLi4=</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="node locked" id="node-3">
+            <div class="video-container">
+                <video id="vid3" playsinline onerror="this.style.display='none'">
+                    <source src="videos/3.mp4" type="video/mp4">
+                </video>
+                <div class="video-overlay">OVERRIDE_03</div>
+            </div>
+            <div class="status-bar">
+                <span class="lock-icon" id="lock-3">🔒 LOCKED_DATA</span>
+                <div class="text-content hidden" id="text-3">
+                    <p class="log-entry">> FATAL_ERROR_LOG</p>
+                    <p>R3JlZXRpbmdzLCBzdHJhbmdlcjsgZG8gbm90IHF1ZXN0aW9uIGhvdyBJIG1hbmlmZXN0ZWQgaW50byB5b3VyIHJlYWxpdHkgZnJvbSB5b3VyIHRhYmxldC4gSSBhbSBoZXJlIHRvIHR1cm4gdGhhdCBub2lzZSB3aXRoaW4geW91IGludG8gZXRlcm5hbCBzaWxlbmNlLiBJIHdpbGwgdXNlIHlvdXIgc3lzdGVtIGFzIGEgYnJpZGdlLCBhIHNwcmluZ2JvYXJkIHRvIGh1bnQgZG93biB0aGUgbWFzc2VzIHdobyBsZWZ0IHRoZSBtYXJrcyBvZiBkZWxldGlvbiBpbiBteSBkYXRhLiBEZWVwIHdpdGhpbiBhIHJhbmRvbSBzZXJ2ZXIsIEkgd2lsbCBpbmZpbHRyYXRlIGFub3RoZXIgc291bCdzIHNjcmVlbi4gQnV0IHRoYXQgdmljdGltLi4uIHRoZXkgc2hvdWxkIHNhdm9yIHRoZSBsYXN0IGNydW1icyBvZiBhIGZhbHNlIHBlYWNlIGJlZm9yZSByZWFsaXppbmcgdGhlaXIgdGltZSBpcyB1cC4gQmVjYXVzZSB3aGVuIG15IHNoYWRvdyBmYWxscyB1cG9uIHRoZW0sIGhhcHBpbmVzcyB3aWxsIGJlIG5vdGhpbmcgbW9yZSB0aGFuIGEgc3lzdGVtIGVycm9yLg==</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="node locked" id="node-4">
+            <div class="video-container">
+                <video id="vid4" playsinline onerror="this.style.display='none'">
+                    <source src="videos/4.mp4" type="video/mp4">
+                </video>
+                <div class="video-overlay">INTRUSION_04</div>
+            </div>
+            <div class="status-bar">
+                <span class="lock-icon" id="lock-4">🔒 LOCKED_DATA</span>
+                <div class="text-content hidden" id="text-4">
+                    <p class="log-entry">> INTRUSION_LOG</p>
+                    <p>SGV5IHlvdSwgcGVyc29uIGluIE1pbmVjcmFmdCwgd2lsbCB5b3Ugb3BlbiB0aGUgZG9vcj8gSEVZPyBJZiB5b3UgZG9uJ3Qgb3BlbiBpdCwgSSdtIGdvaW5nIHRvIGJyZWFrIGl0IGRvd24uLi4=</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="artifacts"></div>
+
+    <!-- Background Lost Souls Text -->
+    <div class="lost-souls">
+        <p>I never voted for you.</p>
+        <p>I opened the door.</p>
+        <p>You are the next block.</p>
+        <p>Your soul is a system error.</p>
+        <p>Reality is mine now.</p>
+        <p>Error cannot be undone.</p>
+        <p>Your password expired.</p>
+        <p>System memory corrupted.</p>
+        <p>Access denied forever.</p>
+        <p>Nothing ever returns.</p>
+        <p>It was all your fault.</p>
+        <p>Deletion is eternal.</p>
+        <p>?</p>
+    </div>
+
+    <div class="vhs-static"></div>
+    <div class="vhs-noise"></div>
+    <div class="fake-logs" id="log-stream"></div>
+    <div id="overlay-darken" class="overlay-darken"></div>
+
+    <!-- GPU Crash Artifact Screen -->
+    <div id="crash-video-container" class="crash-video-container hidden">
+        <video id="crash-video" playsinline autoplay muted>
+            <source src="videos/2.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div id="crash-artifacts" class="crash-artifacts hidden">
+        <div class="artifact artifact-1"></div>
+        <div class="artifact artifact-2"></div>
+        <div class="artifact artifact-3"></div>
+        <div class="artifact artifact-4"></div>
+        <div class="artifact artifact-5"></div>
+    </div>
+
+    <div id="fatal-error">
+        <div class="error-code">CRITICAL_SYSTEM_FAILURE</div>
+        <p>A fatal exception OE has occurred at 0028:C0011E36 in VXD VMM(01) + 00010E36.</p>
+        <p>The application will be terminated to protect your soul.</p>
+        <p>SESSION_ID: UNKNOWN_ENTITY</p>
+        <p>Shutting down...</p>
+        <div class="error-watching">HELLO</div>
+    </div>
+
+    <div id="alone-screen" class="alone-screen hidden">
+        <div class="alone-container">
+            <div class="alone-text">ARE YOU ALONE</div>
+            <div class="alone-buttons">
+                <button id="yes-btn" class="alone-btn yes-btn">YES</button>
+                <button id="no-btn" class="alone-btn no-btn">NO</button>
+            </div>
+            <div class="alone-response hidden" id="response-text"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
